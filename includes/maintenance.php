@@ -42,12 +42,15 @@ final class Maintenance {
  }
  public static function enqueue(){
   $id=absint($_POST['id']??0);if(!current_user_can('manage_options')||!current_user_can('edit_post',$id))wp_die('Forbidden',403);check_admin_referer('pz_links_'.$id);
-  self::queue($id);wp_safe_redirect(admin_url('admin.php?page=piratez-editorial&queued=1'));exit;
+  $result=self::queue($id);if(is_wp_error($result))wp_die(esc_html($result->get_error_message()),'',409);wp_safe_redirect(admin_url('admin.php?page=piratez-editorial&queued=1'));exit;
  }
  public static function queue($id){
+  if(!add_option('pz_editorial_links_lock',time(),'',false))return new \WP_Error('busy','Link checker is busy. Try again shortly.');
+  try{
   $p=get_post($id);if(!$p)return;$processor=new \WP_HTML_Tag_Processor($p->post_content);$links=[];
   while($processor->next_tag('A')){$url=$processor->get_attribute('href');if(!is_string($url)||$url===''||$url[0]==='#')continue;if(str_starts_with($url,'/'))$url=home_url($url);if(!preg_match('~^https?://~i',$url))continue;$url=preg_replace('/#.*$/','',$url);$links[$url]=['post'=>$id,'url'=>esc_url_raw($url)];if(count($links)>=50)break;}
   $queue=(array)get_option(self::QUEUE,[]);foreach($links as$link){$key=md5($id.':'.$link['url']);$queue[$key]=$link;}update_option(self::QUEUE,array_slice($queue,0,200,true),false);update_post_meta($id,'_pz_link_results',['time'=>time(),'links'=>[]]);if(!wp_next_scheduled('pz_editorial_check_links'))wp_schedule_single_event(time()+5,'pz_editorial_check_links');
+  }finally{delete_option('pz_editorial_links_lock');}
  }
  public static function check($url,$hops=0){
   if($hops>3||!self::allowed_url($url))return 'Skipped: unsafe or unresolved destination';

@@ -298,7 +298,7 @@
 (function(){
 'use strict';
 function init(){
- document.querySelectorAll('.share-copy').forEach(button=>button.addEventListener('click',async()=>{const status=button.parentElement.querySelector('[role=status]');try{await navigator.clipboard.writeText(button.dataset.url);if(status)status.textContent='Link copied.';}catch(e){if(status)status.textContent='Copy the page address from your browser.';}}));
+ document.querySelectorAll('.share-copy').forEach(button=>button.addEventListener('click',async()=>{const status=button.closest('.social-sharing')?.querySelector('[role=status]');try{await navigator.clipboard.writeText(button.dataset.url);if(status)status.textContent='Link copied.';}catch(e){if(status)status.textContent='Copy the page address from your browser.';}}));
  if(window.pzEditorial && pzEditorial.code)document.querySelectorAll('.pz-editorial-content pre.wp-block-code, .entry-content pre.wp-block-code, .pz-code pre').forEach(pre=>{
   if(pre.dataset.pzCode)return;pre.dataset.pzCode='1';const code=pre.querySelector('code');if(!code)return;
   const copy=document.createElement('button');copy.type='button';copy.textContent='Copy code';copy.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(code.textContent);copy.textContent='Copied';}catch(e){copy.textContent='Select code to copy';}});pre.after(copy);

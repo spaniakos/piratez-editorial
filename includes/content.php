@@ -7,17 +7,17 @@ final class Content {
         add_action('wp_enqueue_scripts',[self::class,'assets']);
         add_action('enqueue_block_assets',function(){if(is_admin())wp_enqueue_style('pz-editorial',plugins_url('assets/content.css',PIRATEZ_EDITORIAL_FILE),[],PIRATEZ_EDITORIAL_VERSION);});
         add_filter('the_content',[self::class,'decorate'],30);
-        foreach (['save_post','deleted_post','set_object_terms'] as $hook) { add_action($hook,[self::class,'invalidate'],10,1); }
+        foreach (['save_post','before_delete_post','set_object_terms'] as $hook) { add_action($hook,[self::class,'invalidate'],10,1); }
         add_action('init',function(){add_shortcode('piratez_toc',function(){return self::component('toc');});add_shortcode('piratez_related',function(){return self::component('related');});});
     }
     public static function assets() {
         $id=get_queried_object_id(); if (!is_singular()||post_password_required($id)) return;
         $text=get_post_field('post_content',$id);
-        $needed=str_contains($text,'piratez_')||str_contains($text,'piratez-editorial/')||array_filter(Settings::FEATURES,fn($f)=>Settings::enabled($f,$id));
+        $needed=str_contains($text,'pz-term')||str_contains($text,'piratez_')||str_contains($text,'piratez-editorial/')||array_filter(Settings::FEATURES,fn($f)=>Settings::enabled($f,$id));
         if (!$needed) return;
         wp_enqueue_style('pz-editorial',plugins_url('assets/content.css',PIRATEZ_EDITORIAL_FILE),[],PIRATEZ_EDITORIAL_VERSION);
         wp_enqueue_script('pz-editorial-reader',plugins_url('assets/reader.js',PIRATEZ_EDITORIAL_FILE),[],PIRATEZ_EDITORIAL_VERSION,['in_footer'=>true,'strategy'=>'defer']);
-        wp_localize_script('pz-editorial-reader','pzEditorial',['toc'=>Settings::enabled('toc',$id),'code'=>Settings::enabled('code',$id)]);
+        wp_localize_script('pz-editorial-reader','pzEditorial',['toc'=>Settings::enabled('toc',$id),'code'=>Settings::enabled('code',$id),'preferences'=>Settings::enabled('preferences',$id),'print'=>Settings::enabled('print',$id)]);
     }
     public static function minutes($content) {
         $content=strip_shortcodes($content); $content=preg_replace('~<br\s*/?>|</(?:p|div|li|h[1-6]|blockquote|pre|section|article|figcaption|tr)>~i',' ',$content);
@@ -37,12 +37,9 @@ final class Content {
         if($feature==='reading_time'){ $n=self::minutes(get_post_field('post_content',$id));return $n?'<span class="reading-time">'.esc_html($n.' '.__('min read','piratez-editorial')).'</span>':''; }
         if($feature==='toc')return '<div id="toc-root" class="pz-toc-root"></div>';
         if($feature==='reading_progress')return '<div class="reading-progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="'.esc_attr__('Reading progress','piratez-editorial').'"></div>';
-        if($feature==='sharing'){
-            $url=get_permalink($id);$title=get_post_field('post_title',$id);$out='<nav class="social-sharing pz-share" aria-label="'.esc_attr__('Share this article','piratez-editorial').'">';
-            foreach(['Twitter'=>'https://twitter.com/intent/tweet?'.http_build_query(['url'=>$url,'text'=>$title]),'Facebook'=>'https://www.facebook.com/sharer/sharer.php?'.http_build_query(['u'=>$url]),'LinkedIn'=>'https://www.linkedin.com/shareArticle?'.http_build_query(['mini'=>'true','url'=>$url,'title'=>$title])]as$label=>$link)$out.='<a target="_blank" rel="noopener noreferrer" href="'.esc_url($link).'">'.esc_html($label).'</a> ';
-            return $out.'<button type="button" class="share-copy" data-url="'.esc_url($url).'">'.esc_html__('Copy link','piratez-editorial').'</button><span class="pz-copy-status" role="status"></span></nav>';
+        if(in_array($feature,['sharing','related'],true)){
+            ob_start();include __DIR__.'/templates/'.($feature==='sharing'?'social-sharing':'related-posts').'.php';return ob_get_clean();
         }
-        if($feature==='related'){$query=self::related($id);if(!$query)return '';$out='<section class="related-posts"><h2>'.esc_html__('Related Posts','piratez-editorial').'</h2><div class="related-posts-grid">';foreach($query->posts as$p)$out.='<article class="related-post-card"><a href="'.esc_url(get_permalink($p)).'">'.get_the_post_thumbnail($p,'medium').'<h3>'.esc_html(get_the_title($p)).'</h3></a><time datetime="'.esc_attr(get_the_date('c',$p)).'">'.esc_html(get_the_date('',$p)).'</time></article>';return $out.'</div></section>';}
         return '';
     }
     public static function decorate($html) {

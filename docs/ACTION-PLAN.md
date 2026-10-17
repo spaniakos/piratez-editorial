@@ -1,6 +1,6 @@
 # PirateZ Editorial — implementation plan
 
-Version 1.0 • 17 October 2026 • Implementation authorized; repository: https://github.com/spaniakos/piratez-editorial.
+Version 1.1 • 17 October 2026 • Implementation completed locally through 1.4.0; publication pending repository access. Repository: https://github.com/spaniakos/piratez-editorial.
 
 ## Purpose
 
@@ -153,9 +153,33 @@ Repository supplied. Proceed in milestone order through 1.4, retaining this docu
 
 - [x] Repository supplied; current theme main fetched.
 - [x] Confirmed repository is empty. GitHub integration write returned HTTP 403; source work continues locally.
-- [ ] 1.0 extraction/foundation and paired theme validation.
-- [ ] 1.1 visual content validation.
-- [ ] 1.2 catalogue validation.
-- [ ] 1.3 maintenance validation.
-- [ ] 1.4 advanced tools validation.
+- [x] 1.0 extraction/foundation and paired theme validation.
+- [x] 1.1 visual content validation.
+- [x] 1.2 catalogue validation.
+- [x] 1.3 maintenance validation.
+- [x] 1.4 advanced tools validation.
 - [ ] Publish branches/PRs and check CI once repository write access is available.
+
+## Implemented page layouts and native HTML tools
+
+The paired theme provides Default, Narrow reading, Wide, Full width and Landing page templates. Editorial exposes optional page title/header/footer visibility when the theme advertises support. Full width is genuine outer-page width; the mobile integration check verifies there is no horizontal overflow. Other themes retain their own native template choices.
+
+Native Custom HTML, Table, Group, Row, Stack, Grid and Columns remain available. Editorial adds specification/comparison/compact table styles and reusable layout patterns. WordPress permissions and sanitization continue to govern raw HTML. We reuse native Tabs and Footnotes rather than creating competing engines.
+
+## Completed implementation and validation
+
+- Plugin package: 1.4.0, requiring WordPress 7.1.3 and PHP 8.3. Developed sequentially in milestone commits for 1.0, 1.1, 1.2, 1.3 and 1.4.
+- Catalogue and reviewer workflow are off by default. Visual/product/maintenance/advanced inserter tools can be hidden independently without removing existing renderers. Review actions never publish/unpublish or send messages; assigned reviewers require editorial permissions, stale approval requests are rejected, and content edits invalidate approvals.
+- Maps require one-time permission per map/page. Analytics/advertising consent never substitutes for external-map permission. Cookie Consent withdrawal unloads the frame; the user can also unload it explicitly.
+- Link checks are administrator-triggered, limited to 50 links per post, a 200-item queue and three destinations per cron batch. Public-IP validation, bounded redirects, caching and request timeouts apply. Series navigation is bounded to 200 articles; page navigation to 100 pages; product comparisons to six products.
+- Local integration passed with the supplied WordPress 7.1.3 source, PHP 8.3 and Chromium. Covered legacy theme migration mode, Manager active/absent, settings false values/idempotence, safe nested shortcodes, Greek text, related cache invalidation, block serialization, gallery transforms, slideshow/comparison controls, code preservation, optional catalogue/private-product exclusion, private notes excluded from REST, navigation, review authorization/staleness, maps before/after permission and withdrawal, glossary keyboard controls, reading preferences, print and responsive page templates.
+- PHP syntax checks and runtime package builds passed. Packages are built deterministically with explicit runtime allowlists and verified manifests. GitHub checks validate PHP syntax/package builds; the supplied WordPress integration suite runs locally and is documented in the repository.
+- Browser network access is intercepted in integration tests; remote map documents use fixtures. Live provider behavior, production cache/CDN output and staging acceptance remain deployment checks. This is not an accessibility certification or a measured performance benchmark.
+
+## Coordinated GitHub work
+
+- Manager 1.1.0: https://github.com/spaniakos/piratez-manager/pull/3 — adds Editorial to the optional catalogue; updater unchanged.
+- Theme 1.4.0: https://github.com/spaniakos/Piratez.gr-Theme/pull/4 — draft handoff, page variants and guarded adapters; render-blocking optimization and updater retained.
+- Editorial: https://github.com/spaniakos/piratez-editorial — integration writes returned HTTP 403 even though repository metadata is readable. Complete source, milestone commits and installable package are prepared locally. Repository write access is the remaining publication blocker.
+
+Publish Editorial's reviewed package before merging/publishing the theme handoff. Activate Editorial on theme 1.3.x, import settings from the preview, then update the theme. Manager's catalogue addition can be published independently. No production installation, activation, migration or deactivation was performed by this implementation task.

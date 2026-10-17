@@ -9,6 +9,19 @@ wp_set_current_user(1);
 $action=$_GET['action']??'test';
 if($action==='switch') { switch_theme(sanitize_key($_GET['theme'])); echo '{}';exit; }
 if($action==='content'){wp_update_post(wp_slash(['ID'=>get_option('pz_fixture_id'),'post_content'=>wp_unslash($_POST['content']??'')]));echo '{}';exit;}
+if($action==='manager'){activate_plugin('piratez-manager/piratez-manager.php');$items=piratez_manager_catalogue();pz_assert(isset($items['piratez-editorial'])&&$items['piratez-editorial']['installed'],'Manager catalogue identity');echo '{}';exit;}
+if($action==='legacy'){pz_assert(function_exists('piratez_note_shortcode'),'legacy theme owns shortcodes');pz_assert(!has_filter('the_content',[Content::class,'decorate']),'new engines passive');pz_assert(str_contains(do_shortcode('[piratez_note]Old theme remains working[/piratez_note]'),'piratez-note'),'old theme shortcodes');pz_assert(has_filter('update_plugins_github.com'),'updater active in migration mode');echo '{}';exit;}
+if($action==='advanced'){
+ $settings=Settings::get();$settings['workflow']=true;$settings['post']['preferences']=true;$settings['post']['print']=true;update_option(Settings::OPTION,$settings);
+ $id=get_option('pz_fixture_id');$original=get_post_status($id);pz_assert(is_wp_error(\PirateZ\Editorial\Advanced::review($id,'approve','stale-hash')),'stale approval refused');pz_assert(\PirateZ\Editorial\Advanced::review($id,'request')===true,'request review');pz_assert(get_post_status($id)===$original,'review does not unpublish');pz_assert(\PirateZ\Editorial\Advanced::review($id,'approve')===true,'approve review');wp_update_post(['ID'=>$id,'post_title'=>'Changed after approval']);pz_assert(get_post_meta($id,'_pz_review_state',true)==='Changes since approval','approval invalidated by edit');
+ $user=wp_insert_user(['user_login'=>'review-author','user_pass'=>'author-password','role'=>'author']);wp_set_current_user($user);pz_assert(is_wp_error(\PirateZ\Editorial\Advanced::review($id,'approve')),'unauthorized approval denied');wp_set_current_user(1);
+ $map=\PirateZ\Editorial\Advanced::map(['latitude'=>37.9,'longitude'=>23.7,'label'=>'Athens','provider'=>'osm']);pz_assert(!str_contains($map,'<iframe'),'no initial iframe');pz_assert(str_contains($map,'data-map-src'),'map URL deferred');
+ echo '{}';exit;
+}
+if($action==='page-layouts'){
+ $pages=[];foreach(['narrow','wide','full-width','landing']as$variant){$id=wp_insert_post(['post_title'=>'Layout '.$variant,'post_type'=>'page','post_status'=>'publish','post_content'=>'<!-- wp:group {"align":"full"} --><div class="wp-block-group alignfull"><!-- wp:paragraph --><p>Full-width content.</p><!-- /wp:paragraph --></div><!-- /wp:group -->']);update_post_meta($id,'_wp_page_template','page-templates/'.$variant.'.php');if($variant==='landing')foreach(['title','header','footer']as$part)update_post_meta($id,'_pz_hide_'.$part,'on');$pages[$variant]=$id;}
+ echo wp_json_encode($pages);exit;
+}
 if($action==='maintenance'){
  $id=get_option('pz_fixture_id');update_post_meta($id,'_pz_editorial_notes','PRIVATE EDITORIAL NOTE');update_post_meta($id,'_pz_review_date','2020-01-01');update_post_meta($id,'_pz_expiry_notice','Review this guide before following it.');
  $term=wp_insert_term('Example series','pz_editorial_series');$term_id=is_wp_error($term)?$term->get_error_data('term_exists'):$term['term_id'];wp_set_post_terms($id,[$term_id],'pz_editorial_series');

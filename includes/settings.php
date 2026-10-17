@@ -3,14 +3,14 @@ namespace PirateZ\Editorial;
 if (!defined('ABSPATH')) { exit; }
 final class Settings {
     const OPTION = 'piratez_editorial';
-    const FEATURES = ['toc','reading_time','reading_progress','sharing','related','code','checklist'];
+    const FEATURES = ['toc','reading_time','reading_progress','sharing','related','code','checklist','preferences','print'];
     public static function defaults() {
-        return ['schema'=>1,'post'=>array_fill_keys(self::FEATURES,true),'page'=>array_merge(array_fill_keys(self::FEATURES,false),['toc'=>true,'code'=>true,'checklist'=>true]),'profiles'=>array_fill_keys(['twitter','facebook','instagram','linkedin','github','youtube','email'],''),'catalogue'=>false];
+        return ['schema'=>1,'post'=>array_merge(array_fill_keys(self::FEATURES,true),['preferences'=>false,'print'=>false]),'page'=>array_merge(array_fill_keys(self::FEATURES,false),['toc'=>true,'code'=>true,'checklist'=>true]),'profiles'=>array_fill_keys(['twitter','facebook','instagram','linkedin','github','youtube','email'],''),'catalogue'=>false,'workflow'=>false,'modules'=>array_fill_keys(['visual','products','maintenance','advanced'],true)];
     }
     public static function get() {
         $saved = get_option(self::OPTION, []); $saved = is_array($saved) ? $saved : [];
         $defaults = self::defaults();
-        foreach (['post','page','profiles'] as $key) { $saved[$key] = array_merge($defaults[$key],is_array($saved[$key]??null)?$saved[$key]:[]); }
+        foreach (['post','page','profiles','modules'] as $key) { $saved[$key] = array_merge($defaults[$key],is_array($saved[$key]??null)?$saved[$key]:[]); }
         return array_merge($defaults,$saved);
     }
     public static function sanitize($input) {
@@ -18,6 +18,8 @@ final class Settings {
         foreach (['post','page'] as $type) { foreach (self::FEATURES as $key) { $out[$type][$key] = !empty($input[$type][$key]); } }
         foreach ($out['profiles'] as $key=>$value) { $out['profiles'][$key] = $key==='email' ? sanitize_email($input['profiles'][$key]??'') : esc_url_raw($input['profiles'][$key]??'',['https','http']); }
         $out['catalogue'] = !empty($input['catalogue']);
+        foreach($out['modules'] as$key=>$value)$out['modules'][$key]=!empty($input['modules'][$key]);
+        $out['workflow'] = !empty($input['workflow']);
         return $out;
     }
     public static function enabled($feature, $id = 0) {
@@ -37,7 +39,7 @@ final class Settings {
             }
         }
         foreach ($current['profiles'] as $network=>$unused) { if (array_key_exists('piratez_social_'.$network,$mods)) { $changes['profiles.'.$network]=$network==='email'?sanitize_email($mods['piratez_social_'.$network]):esc_url_raw($mods['piratez_social_'.$network]); } }
-        return ['source'=>get_stylesheet(),'changes'=>$changes,'already_imported'=>(bool)get_option('pz_editorial_imported',false),'target_hash'=>hash('sha256',wp_json_encode($current))];
+        return ['source'=>get_stylesheet(),'changes'=>$changes,'already_imported'=>(bool)get_option('pz_editorial_imported',false),'target_hash'=>hash('sha256',wp_json_encode([$current,get_stylesheet(),$changes]))];
     }
     public static function import($hash) {
         if (!current_user_can('manage_options')) { return new \WP_Error('forbidden','Administrator permission required.'); }

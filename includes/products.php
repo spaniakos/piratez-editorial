@@ -54,7 +54,7 @@ final class Products {
   if($name==='product-comparison'){
    $products=[];foreach(array_slice(array_unique(array_map('absint',$a['ids']??[])),0,6)as$pid)if($p=self::public_product($pid))$products[]=$p;if(!$products)return '';
    $labels=[];$data=[];foreach($products as$p){$fields=self::sanitize(get_post_meta($p->ID,'_pz_product',true));$data[$p->ID]=array_column($fields['specs'],'value','label');$labels=array_unique(array_merge($labels,array_keys($data[$p->ID])));}
-   $out='<div class="pz-table-scroll"><table '.get_block_wrapper_attributes(['class'=>'pz-product-comparison']).'><caption>Product comparison</caption><thead><tr><th scope="col">Specification</th>';foreach($products as$p)$out.='<th scope="col"><a href="'.esc_url(get_permalink($p)).'">'.esc_html($p->post_title).'</a></th>';$out.='</tr></thead><tbody>';
+   $out='<div class="pz-table-scroll" tabindex="0" role="region" aria-label="Product comparison"><table '.get_block_wrapper_attributes(['class'=>'pz-product-comparison']).'><caption>Product comparison</caption><thead><tr><th scope="col">Specification</th>';foreach($products as$p)$out.='<th scope="col"><a href="'.esc_url(get_permalink($p)).'">'.esc_html($p->post_title).'</a></th>';$out.='</tr></thead><tbody>';
    foreach(array_slice($labels,0,100)as$label){$values=array_map(fn($p)=>$data[$p->ID][$label]??'—',$products);$different=count(array_unique($values))>1;$out.='<tr'.($different?' class="pz-different"':'').'><th scope="row">'.esc_html($label).'</th>';foreach($values as$v)$out.='<td>'.esc_html($v).'</td>';$out.='</tr>';}
    return $out.'</tbody></table></div>';
   }
