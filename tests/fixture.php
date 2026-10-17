@@ -9,6 +9,16 @@ wp_set_current_user(1);
 $action=$_GET['action']??'test';
 if($action==='switch') { switch_theme(sanitize_key($_GET['theme'])); echo '{}';exit; }
 if($action==='content'){wp_update_post(wp_slash(['ID'=>get_option('pz_fixture_id'),'post_content'=>wp_unslash($_POST['content']??'')]));echo '{}';exit;}
+if($action==='maintenance'){
+ $id=get_option('pz_fixture_id');update_post_meta($id,'_pz_editorial_notes','PRIVATE EDITORIAL NOTE');update_post_meta($id,'_pz_review_date','2020-01-01');update_post_meta($id,'_pz_expiry_notice','Review this guide before following it.');
+ $term=wp_insert_term('Example series','pz_editorial_series');$term_id=is_wp_error($term)?$term->get_error_data('term_exists'):$term['term_id'];wp_set_post_terms($id,[$term_id],'pz_editorial_series');
+ $next=wp_insert_post(['post_title'=>'Next article','post_status'=>'publish']);wp_set_post_terms($next,[$term_id],'pz_editorial_series');update_post_meta($next,'_pz_series_order',2);
+ pz_assert(str_contains(\PirateZ\Editorial\Maintenance::navigation('series',[],$id),'Next article'),'series navigation');
+ pz_assert(!\PirateZ\Editorial\Maintenance::allowed_url('http://127.0.0.1/private'),'private target refused');pz_assert(!\PirateZ\Editorial\Maintenance::allowed_url('http://localhost/private'),'localhost refused');
+ $page=wp_insert_post(['post_title'=>'Parent','post_type'=>'page','post_status'=>'publish']);wp_insert_post(['post_title'=>'Visible child','post_type'=>'page','post_status'=>'publish','post_parent'=>$page]);wp_insert_post(['post_title'=>'Private child','post_type'=>'page','post_status'=>'private','post_parent'=>$page]);$nav=\PirateZ\Editorial\Maintenance::navigation('page-navigation',[],$page);pz_assert(str_contains($nav,'Visible child')&&!str_contains($nav,'Private child'),'public child navigation');
+ $request=new WP_REST_Request('GET','/wp/v2/posts/'.$id);wp_set_current_user(0);$response=rest_do_request($request);pz_assert(!str_contains(wp_json_encode($response->get_data()),'PRIVATE EDITORIAL NOTE'),'private notes excluded from REST');wp_set_current_user(1);
+ echo '{}';exit;
+}
 if($action==='products'){
  pz_assert(!post_type_exists('piratez_product'),'catalogue off by default');$settings=Settings::get();$settings['catalogue']=true;update_option(Settings::OPTION,$settings);\PirateZ\Editorial\Products::register();
  $ids=[];foreach(['Public A'=>'publish','Public B'=>'publish','Secret'=>'private']as$title=>$status){$product=wp_insert_post(['post_type'=>'piratez_product','post_title'=>$title,'post_status'=>$status]);update_post_meta($product,'_pz_product',['model'=>'Demo','specs'=>[['label'=>'Depth','value'=>$title==='Public A'?'40 cm':'60 cm']],'cta_url'=>'https://example.test/contact','cta_label'=>'Request a quote']);$ids[]=$product;}
