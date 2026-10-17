@@ -9,6 +9,14 @@ wp_set_current_user(1);
 $action=$_GET['action']??'test';
 if($action==='switch') { switch_theme(sanitize_key($_GET['theme'])); echo '{}';exit; }
 if($action==='content'){wp_update_post(wp_slash(['ID'=>get_option('pz_fixture_id'),'post_content'=>wp_unslash($_POST['content']??'')]));echo '{}';exit;}
+if($action==='products'){
+ pz_assert(!post_type_exists('piratez_product'),'catalogue off by default');$settings=Settings::get();$settings['catalogue']=true;update_option(Settings::OPTION,$settings);\PirateZ\Editorial\Products::register();
+ $ids=[];foreach(['Public A'=>'publish','Public B'=>'publish','Secret'=>'private']as$title=>$status){$product=wp_insert_post(['post_type'=>'piratez_product','post_title'=>$title,'post_status'=>$status]);update_post_meta($product,'_pz_product',['model'=>'Demo','specs'=>[['label'=>'Depth','value'=>$title==='Public A'?'40 cm':'60 cm']],'cta_url'=>'https://example.test/contact','cta_label'=>'Request a quote']);$ids[]=$product;}
+ $comparison=\PirateZ\Editorial\Products::render('product-comparison',['ids'=>$ids]);pz_assert(str_contains($comparison,'40 cm')&&str_contains($comparison,'60 cm')&&!str_contains($comparison,'Secret'),'public comparison only');pz_assert(str_contains($comparison,'pz-different'),'differences highlighted');
+ $details=\PirateZ\Editorial\Products::render('product-details',['id'=>$ids[0]]);pz_assert(str_contains($details,'Request a quote'),'product CTA');
+ $collection=\PirateZ\Editorial\Products::render('products',[]);pz_assert(str_contains($collection,'Public A')&&!str_contains($collection,'Secret'),'public collection');
+ echo wp_json_encode(['ids'=>$ids]);exit;
+}
 if($action==='test'){
  set_theme_mod('piratez_reading_time',false);set_theme_mod('piratez_social_github','https://github.com/spaniakos');
  delete_option('pz_editorial_imported');$p=Settings::import_preview();pz_assert($p['changes']['post.reading_time']===false,'false import');pz_assert(Settings::import($p['target_hash'])===true,'import');pz_assert(Settings::enabled('reading_time')===false,'off preserved');pz_assert(is_wp_error(Settings::import($p['target_hash'])),'idempotent import');
