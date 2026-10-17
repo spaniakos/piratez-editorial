@@ -1,0 +1,15 @@
+{
+  "type": "plugin",
+  "slug": "piratez-editorial",
+  "repo": "spaniakos/piratez-editorial",
+  "entry": "piratez-editorial.php",
+  "version_constant": "PIRATEZ_EDITORIAL_VERSION",
+  "tested": "7.1.3",
+  "runtime": [
+    "piratez-editorial.php",
+    "readme.txt",
+    "LICENSE",
+    "includes",
+    "assets"
+  ]
+}
