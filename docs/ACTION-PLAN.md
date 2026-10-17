@@ -1,6 +1,6 @@
 # PirateZ Editorial — implementation plan
 
-Version 1.1 • 17 October 2026 • Implementation completed locally through 1.4.0; publication pending repository access. Repository: https://github.com/spaniakos/piratez-editorial.
+Version 1.2 • 17 October 2026 • Implementation through 1.4.0 uploaded for review; release pending merge. Repository: https://github.com/spaniakos/piratez-editorial.
 
 ## Purpose
 
@@ -152,13 +152,13 @@ Repository supplied. Proceed in milestone order through 1.4, retaining this docu
 ## Execution log
 
 - [x] Repository supplied; current theme main fetched.
-- [x] Confirmed repository is empty. GitHub integration write returned HTTP 403; source work continues locally.
+- [x] Initial empty-repository write returned HTTP 403. Access was resolved on 17 October; all five milestone commits are now uploaded.
 - [x] 1.0 extraction/foundation and paired theme validation.
 - [x] 1.1 visual content validation.
 - [x] 1.2 catalogue validation.
 - [x] 1.3 maintenance validation.
 - [x] 1.4 advanced tools validation.
-- [ ] Publish branches/PRs and check CI once repository write access is available.
+- [x] Publish the milestone branch and Editorial PR #1. GitHub Package checks are attached to the PR; use its current check status before merging.
 
 ## Implemented page layouts and native HTML tools
 
@@ -180,6 +180,6 @@ Native Custom HTML, Table, Group, Row, Stack, Grid and Columns remain available.
 
 - Manager 1.1.0: https://github.com/spaniakos/piratez-manager/pull/3 — adds Editorial to the optional catalogue; updater unchanged.
 - Theme 1.4.0: https://github.com/spaniakos/Piratez.gr-Theme/pull/4 — draft handoff, page variants and guarded adapters; render-blocking optimization and updater retained.
-- Editorial: https://github.com/spaniakos/piratez-editorial — integration writes returned HTTP 403 even though repository metadata is readable. Complete source, milestone commits and installable package are prepared locally. Repository write access is the remaining publication blocker.
+- Editorial 1.4.0: https://github.com/spaniakos/piratez-editorial/pull/1 — five ordered milestone commits uploaded with trees verified against the tested local source. The access blocker is resolved; merge and verify the immutable release/package before the theme handoff.
 
 Publish Editorial's reviewed package before merging/publishing the theme handoff. Activate Editorial on theme 1.3.x, import settings from the preview, then update the theme. Manager's catalogue addition can be published independently. No production installation, activation, migration or deactivation was performed by this implementation task.
