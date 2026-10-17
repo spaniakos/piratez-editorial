@@ -20,6 +20,8 @@ final class Patterns {
             'sources'=>['Sources section',['Sources']],
             'takeaways'=>['Key takeaways',['Key takeaways']],
         ];
+        register_block_pattern('piratez-editorial/steps',['title'=>'PirateZ: Steps / checklist','categories'=>['piratez'],'content'=>'<!-- wp:list {"ordered":true} --><ol class="wp-block-list"><!-- wp:list-item --><li>First step</li><!-- /wp:list-item --><!-- wp:list-item --><li>Verify the result</li><!-- /wp:list-item --></ol><!-- /wp:list -->']);
+        register_block_pattern('piratez-editorial/faq-item',['title'=>'PirateZ: FAQ item','categories'=>['piratez'],'content'=>'<!-- wp:details --><details class="wp-block-details"><summary>Question</summary><!-- wp:paragraph --><p>Answer</p><!-- /wp:paragraph --></details><!-- /wp:details -->']);
         foreach($patterns as$key=>[$title,$sections]){
             $content='';foreach($sections as$heading)$content.='<!-- wp:heading --><h2 class="wp-block-heading">'.esc_html($heading).'</h2><!-- /wp:heading --><!-- wp:paragraph --><p></p><!-- /wp:paragraph -->';
             register_block_pattern('piratez-editorial/'.$key,['title'=>'PirateZ: '.$title,'categories'=>['piratez'],'content'=>$content]);

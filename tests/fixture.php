@@ -8,6 +8,7 @@ try {
 wp_set_current_user(1);
 $action=$_GET['action']??'test';
 if($action==='switch') { switch_theme(sanitize_key($_GET['theme'])); echo '{}';exit; }
+if($action==='content'){wp_update_post(wp_slash(['ID'=>get_option('pz_fixture_id'),'post_content'=>wp_unslash($_POST['content']??'')]));echo '{}';exit;}
 if($action==='test'){
  set_theme_mod('piratez_reading_time',false);set_theme_mod('piratez_social_github','https://github.com/spaniakos');
  delete_option('pz_editorial_imported');$p=Settings::import_preview();pz_assert($p['changes']['post.reading_time']===false,'false import');pz_assert(Settings::import($p['target_hash'])===true,'import');pz_assert(Settings::enabled('reading_time')===false,'off preserved');pz_assert(is_wp_error(Settings::import($p['target_hash'])),'idempotent import');

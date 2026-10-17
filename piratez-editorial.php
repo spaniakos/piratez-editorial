@@ -3,7 +3,7 @@
  * Plugin Name: PirateZ Editorial
  * Plugin URI: https://github.com/spaniakos/piratez-editorial
  * Description: Portable editorial blocks, article tools, page patterns and product showcases.
- * Version: 1.0.0
+ * Version: 1.1.0
  * Requires at least: 7.1.3
  * Requires PHP: 8.3
  * Update URI: https://github.com/spaniakos/piratez-editorial
@@ -12,13 +12,13 @@
  * Text Domain: piratez-editorial
  */
 if (!defined('ABSPATH')) { exit; }
-define('PIRATEZ_EDITORIAL_VERSION', '1.0.0');
+define('PIRATEZ_EDITORIAL_VERSION', '1.1.0');
 define('PIRATEZ_EDITORIAL_FILE', __FILE__);
 require_once __DIR__ . '/includes/admin-menu.php';
 require_once __DIR__ . '/includes/github-updater.php';
 new \PirateZ\Editorial\GitHubUpdater(['name'=>'PirateZ Editorial','type'=>'plugin','slug'=>'piratez-editorial','repo'=>'spaniakos/piratez-editorial','key'=>plugin_basename(__FILE__),'entry'=>'piratez-editorial.php']);
-foreach (['settings','content','blocks','admin','patterns'] as $part) { require_once __DIR__ . '/includes/' . $part . '.php'; }
-add_action('init', function () { \PirateZ\Editorial\Settings::register(); \PirateZ\Editorial\Blocks::register(); \PirateZ\Editorial\Patterns::register(); });
+foreach (['settings','content','blocks','admin','patterns','visual'] as $part) { require_once __DIR__ . '/includes/' . $part . '.php'; }
+add_action('init', function () { \PirateZ\Editorial\Settings::register(); \PirateZ\Editorial\Blocks::register(); \PirateZ\Editorial\Patterns::register(); \PirateZ\Editorial\Visual::register(); });
 add_action('after_setup_theme', function () {
     $theme=wp_get_theme(get_template());
     if ($theme->get('TextDomain')==='piratez-cyberpunk' && version_compare($theme->get('Version'),'1.4.0','<')) {
