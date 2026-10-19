@@ -246,16 +246,21 @@
         }
 
         let lastProgress = 0;
+        let lastTop = 0;
 
         // Two-rAF: read dimensions/scroll in frame 1, write width in frame 2 to avoid forced reflow.
         function writeProgressState() {
             progressBar.style.width = lastProgress + '%';
+            progressBar.style.setProperty('--pz-reading-top', lastTop + 'px');
             progressBar.setAttribute('aria-valuenow', String(Math.round(lastProgress)));
             ticking = false;
         }
 
         function readProgress() {
             const windowHeight = window.innerHeight;
+            // The mobile toolbar scrolls away; use its visible bottom, not a fixed gap.
+            const adminBar = document.getElementById('wpadminbar');
+            lastTop = adminBar ? Math.max(0, Math.min(windowHeight, adminBar.getBoundingClientRect().bottom)) : 0;
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
             const articleTop = article.getBoundingClientRect().top + scrollTop;
             const articleHeight = article.offsetHeight;

@@ -135,6 +135,19 @@ A **pattern** inserts a ready-made arrangement of editable blocks. Find them und
 
 Patterns provide structure. They do not supply researched facts, genuine testimonials, catalogue records or contact-form handling.
 
+## Theme support boundary
+
+| Capability | With a theme that has no PirateZ adapter |
+| --- | --- |
+| TOC, reading time/progress, sharing and related posts | Editorial places them around the main singular content, according to settings |
+| Shortcodes, content blocks/patterns, catalogue, maintenance and reviews | Available independently of PirateZ theme and Manager |
+| PirateZ Narrow/Wide/Full width/Landing outer templates | Use the active theme’s native templates instead |
+| Hide page title/header/footer controls | Hidden unless the theme advertises the layout adapter |
+| Header, navigation, sidebars, fonts, palette and dark mode | Belong to the active theme |
+| Print and reading preferences | Cover article content; outer theme elements may need theme-specific styling |
+
+The active theme must render normal WordPress content and asset hooks. Product pages inherit that theme’s single/archive layout; product information and showcase blocks belong to Editorial. Related posts still require shared categories and TOC requires at least two H2–H4 headings.
+
 ## HTML, tables and page layouts
 
 Native **Custom HTML, Table, Group, Row, Stack, Grid and Columns** remain available. Editorial adds specification/comparison/compact table styles and patterns while retaining WordPress permissions and sanitisation for raw HTML. Tabs, Footnotes and FAQ/Details build on native WordPress capabilities.
@@ -193,3 +206,11 @@ The build creates a deterministic installable ZIP, `release.json` manifest and `
 - [Optional Manager](https://github.com/spaniakos/piratez-manager).
 
 The authoritative development/integration baseline is the supplied WordPress **7.1.3** source. Local integration uses PHP **8.3** and Chromium. CI validates PHP syntax and runtime packaging; the supplied WordPress integration harness is documented separately. Remote map documents use fixtures in tests; live provider behaviour and production caches remain staging checks.
+
+### Separation fixes (1.4.2)
+
+Editorial scopes its TOC control styles so the theme’s older hidden-state rules cannot hide the extracted controls. Reading progress is layered above the PirateZ sticky header and follows the visible bottom of the WordPress admin toolbar, including when the mobile toolbar scrolls away. Feature defaults and explicit per-post off settings remain respected.
+
+Assets also load when Editorial content is rendered through synced patterns, templates, widgets or archive loops, even with automatic article tools disabled. Hiding an authoring module keeps existing blocks styled and interactive. Product previews receive the block’s current post context, including products inside Query Loops. The card picker distinguishes a manual card from current-product details/specifications.
+
+The paired theme 1.4.1 places enabled reading time, sharing and related content on pages as well as articles. Page defaults remain unchanged. Editorial retains its independent native GitHub updater and needs no Manager installation.
