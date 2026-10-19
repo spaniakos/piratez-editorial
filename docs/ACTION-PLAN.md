@@ -1,6 +1,6 @@
 # PirateZ Editorial — implementation plan
 
-Version 1.2 • 17 October 2026 • Implementation through 1.4.0 uploaded for review; release pending merge. Repository: https://github.com/spaniakos/piratez-editorial.
+Version 1.3 • 19 October 2026 • Milestones through 1.4.0 released; 1.4.1 guide released; separation audit fixes prepared as 1.4.2. Repository: https://github.com/spaniakos/piratez-editorial.
 
 ## Purpose
 
@@ -183,3 +183,17 @@ Native Custom HTML, Table, Group, Row, Stack, Grid and Columns remain available.
 - Editorial 1.4.0: https://github.com/spaniakos/piratez-editorial/pull/1 — five ordered milestone commits uploaded with trees verified against the tested local source. The access blocker is resolved; merge and verify the immutable release/package before the theme handoff.
 
 Publish Editorial's reviewed package before merging/publishing the theme handoff. Activate Editorial on theme 1.3.x, import settings from the preview, then update the theme. Manager's catalogue addition can be published independently. No production installation, activation, migration or deactivation was performed by this implementation task.
+
+## Separation audit — 1.4.2
+
+Released baseline: Editorial 1.4.1, theme 1.4.0 and Manager 1.1.0. The earlier PRs above have merged; their descriptions record the original handoff.
+
+| Confirmed inconsistency | Correction | Regression evidence |
+| --- | --- | --- |
+| Theme legacy TOC CSS hides the extracted button | Plugin-scoped visible-state and panel rules | Computed visibility, keyboard open/close, panel bounds |
+| Reading progress sits below the sticky header/admin toolbar | Explicit plugin layer and visible-toolbar offset | Mid-article progress, hit testing, desktop/mobile and anonymous readers |
+| Synced/template content can miss assets when article tools are off | Enqueue from actual block/shortcode rendering as well as queried content | Synced download/glossary with tools/modules off on a standard theme |
+| Query Loop product previews use the edited page rather than the loop context | Pass block postId to server previews | Actual editor product query and specification response |
+| Page reading time/sharing settings lack theme placements | Guarded page placements in theme 1.4.1, including related content | All five page variants; defaults remain off |
+
+Validate all 27 native/custom patterns with Gutenberg, theme operation without Editorial, preserved per-post off settings, and unchanged render-blocking/updater ownership. Publish the Editorial patch and paired theme patch; the Manager navigation fix is independent. Production installation and cache/CDN acceptance remain deployment steps.

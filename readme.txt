@@ -3,12 +3,18 @@ Contributors: spaniakos
 Requires at least: 7.1.3
 Tested up to: 7.1.3
 Requires PHP: 8.3
-Stable tag: 1.4.1
+Stable tag: 1.4.2
 License: GPLv3 or later
 
 Standalone content tools, editorial workflow and product showcases.
 
 == Changelog ==
+
+= 1.4.2 =
+* Restore visible TOC controls when legacy theme styles target their shared class names.
+* Keep reading progress above sticky headers and below the visible WordPress admin toolbar.
+* Load content assets for synced patterns and other rendering contexts with automatic tools disabled.
+* Preview Query Loop product blocks using their product context; clarify manual/current-product selection.
 
 = 1.4.1 =
 * Restore author-accessible shortcode explanations and a complete callout/block/pattern guide.

@@ -4,20 +4,39 @@ if (!defined('ABSPATH')) { exit; }
 final class Content {
     public static function boot() {
         require_once __DIR__.'/legacy-shortcodes.php';
+        add_action('init',[self::class,'register_assets'],5);
         add_action('wp_enqueue_scripts',[self::class,'assets']);
+        // Rendering can come from synced patterns, templates, widgets or archive loops.
+        add_filter('render_block',function($html,$block){
+            if(!is_admin()&&(str_starts_with($block['blockName']??'','piratez-editorial/')||str_contains($block['attrs']['className']??'','is-style-piratez')||str_contains($html,'pz-term')))self::enqueue();
+            return $html;
+        },20,2);
+        add_filter('do_shortcode_tag',function($html,$tag){
+            if(!is_admin()&&in_array($tag,['piratez_social_links','piratez_take','piratez_hard_truth','piratez_warning','piratez_note','piratez_toc','piratez_related'],true))self::enqueue();
+            return $html;
+        },20,2);
         add_action('enqueue_block_assets',function(){if(is_admin())wp_enqueue_style('pz-editorial',plugins_url('assets/content.css',PIRATEZ_EDITORIAL_FILE),[],PIRATEZ_EDITORIAL_VERSION);});
         add_filter('the_content',[self::class,'decorate'],30);
         foreach (['save_post','before_delete_post','set_object_terms'] as $hook) { add_action($hook,[self::class,'invalidate'],10,1); }
         add_action('init',function(){add_shortcode('piratez_toc',function(){return self::component('toc');});add_shortcode('piratez_related',function(){return self::component('related');});});
+    }
+    public static function register_assets() {
+        wp_register_style('pz-editorial',plugins_url('assets/content.css',PIRATEZ_EDITORIAL_FILE),[],PIRATEZ_EDITORIAL_VERSION);
+        wp_register_script('pz-editorial-reader',plugins_url('assets/reader.js',PIRATEZ_EDITORIAL_FILE),[],PIRATEZ_EDITORIAL_VERSION,['in_footer'=>true,'strategy'=>'defer']);
+    }
+    public static function enqueue() {
+        $id=is_singular()?get_queried_object_id():get_the_ID();
+        wp_enqueue_style('pz-editorial');
+        if(wp_script_is('pz-editorial-reader','enqueued'))return;
+        wp_enqueue_script('pz-editorial-reader');
+        wp_localize_script('pz-editorial-reader','pzEditorial',['toc'=>Settings::enabled('toc',$id),'code'=>Settings::enabled('code',$id),'preferences'=>Settings::enabled('preferences',$id),'print'=>Settings::enabled('print',$id)]);
     }
     public static function assets() {
         $id=get_queried_object_id(); if (!is_singular()||post_password_required($id)) return;
         $text=get_post_field('post_content',$id);
         $needed=str_contains($text,'pz-term')||str_contains($text,'piratez_')||str_contains($text,'piratez-editorial/')||array_filter(Settings::FEATURES,fn($f)=>Settings::enabled($f,$id));
         if (!$needed) return;
-        wp_enqueue_style('pz-editorial',plugins_url('assets/content.css',PIRATEZ_EDITORIAL_FILE),[],PIRATEZ_EDITORIAL_VERSION);
-        wp_enqueue_script('pz-editorial-reader',plugins_url('assets/reader.js',PIRATEZ_EDITORIAL_FILE),[],PIRATEZ_EDITORIAL_VERSION,['in_footer'=>true,'strategy'=>'defer']);
-        wp_localize_script('pz-editorial-reader','pzEditorial',['toc'=>Settings::enabled('toc',$id),'code'=>Settings::enabled('code',$id),'preferences'=>Settings::enabled('preferences',$id),'print'=>Settings::enabled('print',$id)]);
+        self::enqueue();
     }
     public static function minutes($content) {
         $content=strip_shortcodes($content); $content=preg_replace('~<br\s*/?>|</(?:p|div|li|h[1-6]|blockquote|pre|section|article|figcaption|tr)>~i',' ',$content);
@@ -36,7 +55,7 @@ final class Content {
         $id=$id?:get_the_ID();if(!$id||post_password_required($id)||!Settings::enabled($feature,$id))return '';
         if($feature==='reading_time'){ $n=self::minutes(get_post_field('post_content',$id));return $n?'<span class="reading-time">'.esc_html($n.' '.__('min read','piratez-editorial')).'</span>':''; }
         if($feature==='toc')return '<div id="toc-root" class="pz-toc-root"></div>';
-        if($feature==='reading_progress')return '<div class="reading-progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="'.esc_attr__('Reading progress','piratez-editorial').'"></div>';
+        if($feature==='reading_progress')return '<div class="reading-progress-bar pz-reading-progress" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="'.esc_attr__('Reading progress','piratez-editorial').'"></div>';
         if(in_array($feature,['sharing','related'],true)){
             ob_start();include __DIR__.'/templates/'.($feature==='sharing'?'social-sharing':'related-posts').'.php';return ob_get_clean();
         }

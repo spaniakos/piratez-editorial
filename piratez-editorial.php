@@ -3,7 +3,7 @@
  * Plugin Name: PirateZ Editorial
  * Plugin URI: https://github.com/spaniakos/piratez-editorial
  * Description: Portable editorial blocks, article tools, page patterns and product showcases.
- * Version: 1.4.1
+ * Version: 1.4.2
  * Requires at least: 7.1.3
  * Requires PHP: 8.3
  * Update URI: https://github.com/spaniakos/piratez-editorial
@@ -12,7 +12,7 @@
  * Text Domain: piratez-editorial
  */
 if (!defined('ABSPATH')) { exit; }
-define('PIRATEZ_EDITORIAL_VERSION', '1.4.1');
+define('PIRATEZ_EDITORIAL_VERSION', '1.4.2');
 define('PIRATEZ_EDITORIAL_FILE', __FILE__);
 require_once __DIR__ . '/includes/admin-menu.php';
 require_once __DIR__ . '/includes/github-updater.php';
