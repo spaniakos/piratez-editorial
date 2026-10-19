@@ -1,6 +1,6 @@
 # PirateZ Editorial — implementation plan
 
-Version 1.3 • 19 October 2026 • Milestones through 1.4.0 released; 1.4.1 guide released; separation audit fixes prepared as 1.4.2. Repository: https://github.com/spaniakos/piratez-editorial.
+Version 1.4 • 19 October 2026 • Editorial 1.4.2 separation accepted live; Cosmosolar catalogue extensions and Multisite baseline approved for future work. Repository: https://github.com/spaniakos/piratez-editorial.
 
 ## Purpose
 
@@ -197,3 +197,25 @@ Released baseline: Editorial 1.4.1, theme 1.4.0 and Manager 1.1.0. The earlier P
 | Page reading time/sharing settings lack theme placements | Guarded page placements in theme 1.4.1, including related content | All five page variants; defaults remain off |
 
 Validate all 27 native/custom patterns with Gutenberg, theme operation without Editorial, preserved per-post off settings, and unchanged render-blocking/updater ownership. Publish the Editorial patch and paired theme patch; the Manager navigation fix is independent. Production installation and cache/CDN acceptance remain deployment steps.
+
+
+## Accepted future scope — Cosmosolar and WordPress Multisite
+
+On 19 October 2026 the user confirmed live acceptance of Editorial 1.4.2, theme 1.4.1 and Manager 1.1.1. Extraction is complete. New authoring usability changes follow actual use; this section records future catalogue requirements rather than claiming they are implemented.
+
+All shared modules will support the WordPress Multisite deployment baseline and Cosmosolar's own theme. No multilingual plugin, translation engine, translation synchronization or translation workflow is planned. Site content/settings remain isolated by default; cross-site sharing is not implied.
+
+The master programme plan's C1–C5 and C7 extend Editorial's optional Catalogue/content features:
+
+- Product families and structured models with unique codes, shared/model-specific fields, discontinuation and replacement links.
+- Typed technical values, units, ranges and declared test conditions; generate specifications and comparisons from one data source. Manufacturer review resolves inconsistent legacy values.
+- Category-specific product filters and model/code search with bounded queries and accessible states.
+- Reusable documents linked to the relevant models/families: manuals, certificates, energy labels, fiches, warranties and diagrams; revision/validity/review information and replacement history.
+- Explicit compatibility, accessory, component, system and diagram relationships.
+- Domestic, hotel and industrial application content and optional product-linked case studies.
+
+Forms integration owns model-aware enquiries (master C6); Mail owns SMTP. SEO owns business/product metadata, catalogue indexing and redirects (C8). Migration tooling owns previewed/idempotent import and builder conversion (C9). No competing product post type, commerce engine or new plugin per feature is introduced.
+
+Catalogue acceptance must include Multisite network/site activation and permissions, two-site data/settings/upload isolation, new-site initialization, per-site migrations/jobs/cache invalidation, document resolution, filters/model selection, generated tables/comparisons and product enquiry context. Repeat cross-theme and Manager-absent tests and preserve independent native updates. Existing single-site test results do not establish these future Multisite gates.
+
+Before broad catalogue implementation, inventory clean Cosmosolar source content and prove the schema/import with one boiler family and one heat-pump family, including documents and relationships. The observed unrelated homepage spam is a separate remediation gate. Dealer locator, installer portal, warranty registration and engineering calculators stay conditional later backlog. Performance remains the next shared module; exact catalogue release versions will be assigned when their bounded implementation milestones are ready.
