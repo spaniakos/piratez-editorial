@@ -1,6 +1,6 @@
 # PirateZ Editorial — implementation plan
 
-Version 1.4 • 19 October 2026 • Editorial 1.4.2 separation accepted live; Cosmosolar catalogue extensions and Multisite baseline approved for future work. Repository: https://github.com/spaniakos/piratez-editorial.
+Version 1.5 • 19 October 2026 • Editorial 1.4.2 separation accepted live; Cosmosolar catalogue extensions and Multisite baseline approved for future work. Repository: https://github.com/spaniakos/piratez-editorial.
 
 ## Purpose
 
@@ -218,4 +218,21 @@ Forms integration owns model-aware enquiries (master C6); Mail owns SMTP. SEO ow
 
 Catalogue acceptance must include Multisite network/site activation and permissions, two-site data/settings/upload isolation, new-site initialization, per-site migrations/jobs/cache invalidation, document resolution, filters/model selection, generated tables/comparisons and product enquiry context. Repeat cross-theme and Manager-absent tests and preserve independent native updates. Existing single-site test results do not establish these future Multisite gates.
 
-Before broad catalogue implementation, inventory clean Cosmosolar source content and prove the schema/import with one boiler family and one heat-pump family, including documents and relationships. The observed unrelated homepage spam is a separate remediation gate. Dealer locator, installer portal, warranty registration and engineering calculators stay conditional later backlog. Performance remains the next shared module; exact catalogue release versions will be assigned when their bounded implementation milestones are ready.
+During catalogue development use synthetic boiler/heat-pump fixtures to prove schemas and import contracts. Finish and validate all modules before Cosmosolar migration; source remediation and real-family import rehearsal belong to that later project. Dealer locator, installer portal, warranty registration and engineering calculators stay conditional later backlog. Performance remains the next shared module; exact catalogue release versions will be assigned when their bounded implementation milestones are ready.
+
+
+## Confirmed document collection and Accessibility contract — 19 October 2026
+
+Product Documents extends the existing optional Editorial Catalogue. Preserve `[product_documents folder="documents/example" lang="en"]`, nested PDF/MP4 folders and legacy `translations.json` labels; add a Gutenberg block sharing the renderer. No multilingual-plugin integration is added.
+
+The user selected automatic publication after indexing and all-public collections initially. Administrators approve collection roots; subsequent valid files appear after successful indexing without editorial approval. Provide bounded incremental background indexing, manual Refresh index, observable freshness/errors and cached frontend rendering; do not scan directories per page view. Reflect removed files and preserve manual metadata overrides. Approved folders hold public files; restricted documents/protected downloads are outside this initial scope.
+
+Resolve paths under the current site's approved uploads folders; reject traversal and escaping symlinks, validate permitted file types, escape output, bound scans and handle malformed label JSON safely. Do not change original files or existing public URLs incidentally. Use stable collection/file identities and product-family/model associations, semantic nested lists/headings, descriptive type/size labels and revision/replacement metadata.
+
+Acceptance covers automatic addition/removal after indexing, nested/empty/missing collections, special-character filenames, legacy labels, unsafe-path rejection, scan budgets, no frontend scans, metadata preservation, keyboard-readable output and two-site data/upload isolation.
+
+PirateZ Accessibility is an independent ninth module, separate from account-focused PirateZ Access. It owns visitor preferences/evaluation helpers; Editorial owns accessible source output for its blocks, catalogue, document listing and editor interfaces. Coordinate reading preferences to avoid duplicate scaling. Link relevant caption/transcript/accessible-alternative resources, but do not claim a readable document list repairs the underlying PDF/video.
+
+All applicable WCAG 2.2 Level A and AA criteria enter the shared acceptance matrix, including technical tables, filters, model selectors, status/error messages and download/media behavior. Automated findings and manual keyboard/screen-reader/zoom/reflow evidence remain distinct. The master programme plan sections 12/D1 and 12/X1 define the complete scope and milestones.
+
+Current creation order: Performance → Accessibility foundation → SEO foundation → Editorial Catalogue/documents → Access → Mail → complete SEO → integrated module acceptance. Cosmosolar migration and its new theme follow module completion. Exact feature-release versions remain unassigned until implementation milestones are bounded.
