@@ -19,3 +19,7 @@ Run `python3 tools/build_release.py`. Only runtime files enter the installable Z
 With PirateZ theme 1.3.x, activate Editorial in migration mode, preview/import settings, then install theme 1.4.0. Other themes receive portable content tools; outer width/chrome controls require theme support. Do not publish the paired theme before the plugin release is available.
 
 Catalogue and multi-author review workflow start disabled. Source settings and authored content survive deactivation. Static block markup remains readable; dynamic blocks and legacy shortcodes need the plugin. Link checking uses WP-Cron; review actions send no messages and leave publication to WordPress.
+
+## Shortcodes and author guide
+
+Open **PirateZ → Editorial guide** (administrators) or **Posts → Editorial guide** (authors/editors). The settings screen links directly to it, and the former `piratez-shortcodes` admin bookmark redirects there. The guide documents all seven shortcodes, four callout variants, sixteen custom blocks and twenty-seven patterns, including requirements and limitations.
