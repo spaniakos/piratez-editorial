@@ -1,0 +1,42 @@
+{
+  "feature-cards": {
+    "title": "Feature cards",
+    "content": "<!-- wp:columns -->\n<div class=\"wp-block-columns\"><!-- wp:column -->\n<div class=\"wp-block-column\"><!-- wp:heading -->\n<h2 class=\"wp-block-heading\">Feature one</h2>\n<!-- /wp:heading -->\n\n<!-- wp:paragraph -->\n<p>Describe the benefit.</p>\n<!-- /wp:paragraph --></div>\n<!-- /wp:column -->\n\n<!-- wp:column -->\n<div class=\"wp-block-column\"><!-- wp:heading -->\n<h2 class=\"wp-block-heading\">Feature two</h2>\n<!-- /wp:heading -->\n\n<!-- wp:paragraph -->\n<p>Describe the benefit.</p>\n<!-- /wp:paragraph --></div>\n<!-- /wp:column -->\n\n<!-- wp:column -->\n<div class=\"wp-block-column\"><!-- wp:heading -->\n<h2 class=\"wp-block-heading\">Feature three</h2>\n<!-- /wp:heading -->\n\n<!-- wp:paragraph -->\n<p>Describe the benefit.</p>\n<!-- /wp:paragraph --></div>\n<!-- /wp:column --></div>\n<!-- /wp:columns -->",
+    "valid": true
+  },
+  "timeline": {
+    "title": "Timeline",
+    "content": "<!-- wp:group {\"layout\":{\"type\":\"constrained\"}} -->\n<div class=\"wp-block-group\"><!-- wp:heading -->\n<h2 class=\"wp-block-heading\">Timeline</h2>\n<!-- /wp:heading -->\n\n<!-- wp:heading -->\n<h2 class=\"wp-block-heading\">First milestone</h2>\n<!-- /wp:heading -->\n\n<!-- wp:paragraph -->\n<p>Date and outcome.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:heading -->\n<h2 class=\"wp-block-heading\">Next milestone</h2>\n<!-- /wp:heading -->\n\n<!-- wp:paragraph -->\n<p>Date and outcome.</p>\n<!-- /wp:paragraph --></div>\n<!-- /wp:group -->",
+    "valid": true
+  },
+  "statistics": {
+    "title": "Statistics",
+    "content": "<!-- wp:columns -->\n<div class=\"wp-block-columns\"><!-- wp:column -->\n<div class=\"wp-block-column\"><!-- wp:heading -->\n<h2 class=\"wp-block-heading\">42</h2>\n<!-- /wp:heading -->\n\n<!-- wp:paragraph -->\n<p>Describe what this measures.</p>\n<!-- /wp:paragraph --></div>\n<!-- /wp:column -->\n\n<!-- wp:column -->\n<div class=\"wp-block-column\"><!-- wp:heading -->\n<h2 class=\"wp-block-heading\">100%</h2>\n<!-- /wp:heading -->\n\n<!-- wp:paragraph -->\n<p>Add a verifiable source.</p>\n<!-- /wp:paragraph --></div>\n<!-- /wp:column --></div>\n<!-- /wp:columns -->",
+    "valid": true
+  },
+  "testimonials": {
+    "title": "Testimonial",
+    "content": "<!-- wp:quote -->\n<blockquote class=\"wp-block-quote\"><!-- wp:paragraph -->\n<p>Replace with an authorized, truthful testimonial.</p>\n<!-- /wp:paragraph --></blockquote>\n<!-- /wp:quote -->\n\n<!-- wp:paragraph -->\n<p>Attribution and context.</p>\n<!-- /wp:paragraph -->",
+    "valid": true
+  },
+  "comparison-table": {
+    "title": "Comparison table",
+    "content": "<!-- wp:table -->\n<figure class=\"wp-block-table\"><table class=\"has-fixed-layout\"><thead><tr><th>Feature</th><th>Option A</th><th>Option B</th></tr></thead><tbody><tr><td>Specification</td><td>Value</td><td>Value</td></tr></tbody></table></figure>\n<!-- /wp:table -->",
+    "valid": true
+  },
+  "contact-section": {
+    "title": "Contact section",
+    "content": "<!-- wp:group {\"layout\":{\"type\":\"constrained\"}} -->\n<div class=\"wp-block-group\"><!-- wp:heading -->\n<h2 class=\"wp-block-heading\">Get in touch</h2>\n<!-- /wp:heading -->\n\n<!-- wp:paragraph -->\n<p>Your public contact details.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:buttons -->\n<div class=\"wp-block-buttons\"><!-- wp:button -->\n<div class=\"wp-block-button\"><a class=\"wp-block-button__link wp-element-button\" href=\"/contact/\">Contact us</a></div>\n<!-- /wp:button --></div>\n<!-- /wp:buttons --></div>\n<!-- /wp:group -->",
+    "valid": true
+  },
+  "itinerary": {
+    "title": "Travel itinerary",
+    "content": "<!-- wp:piratez-editorial/itinerary -->\n<section class=\"wp-block-piratez-editorial-itinerary pz-itinerary\"><ol><!-- wp:piratez-editorial/itinerary-day {\"destination\":\"Destination\",\"nights\":1} -->\n<li class=\"wp-block-piratez-editorial-itinerary-day pz-itinerary-day\"><h3>Destination</h3><p>1 overnight stays</p><!-- wp:paragraph -->\n<p>Activities and transport.</p>\n<!-- /wp:paragraph --></li>\n<!-- /wp:piratez-editorial/itinerary-day --></ol></section>\n<!-- /wp:piratez-editorial/itinerary -->",
+    "valid": true
+  },
+  "tabs": {
+    "title": "Platform instructions",
+    "content": "<!-- wp:tabs -->\n<div class=\"wp-block-tabs\"><!-- wp:tab-list -->\n<div role=\"tablist\" class=\"wp-block-tab-list\"><button type=\"button\" role=\"tab\">Linux</button><button type=\"button\" role=\"tab\">macOS</button></div>\n<!-- /wp:tab-list -->\n\n<!-- wp:tab-panels -->\n<div class=\"wp-block-tab-panels\"><!-- wp:tab-panel -->\n<section role=\"tabpanel\" tabindex=\"0\" class=\"wp-block-tab-panel\"><!-- wp:heading -->\n<h2 class=\"wp-block-heading\">Linux</h2>\n<!-- /wp:heading -->\n\n<!-- wp:paragraph -->\n<p>Instructions.</p>\n<!-- /wp:paragraph --></section>\n<!-- /wp:tab-panel -->\n\n<!-- wp:tab-panel -->\n<section role=\"tabpanel\" tabindex=\"0\" class=\"wp-block-tab-panel\"><!-- wp:heading -->\n<h2 class=\"wp-block-heading\">macOS</h2>\n<!-- /wp:heading -->\n\n<!-- wp:paragraph -->\n<p>Instructions.</p>\n<!-- /wp:paragraph --></section>\n<!-- /wp:tab-panel --></div>\n<!-- /wp:tab-panels --></div>\n<!-- /wp:tabs -->",
+    "valid": true
+  }
+}
