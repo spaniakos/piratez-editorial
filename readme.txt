@@ -3,12 +3,16 @@ Contributors: spaniakos
 Requires at least: 7.1.3
 Tested up to: 7.1.3
 Requires PHP: 8.3
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 License: GPLv3 or later
 
 Standalone content tools, editorial workflow and product showcases.
 
 == Changelog ==
+
+= 1.4.1 =
+* Restore author-accessible shortcode explanations and a complete callout/block/pattern guide.
+* Link Editorial settings and the legacy Shortcodes bookmark to the guide.
 
 = 1.4.0 =
 * Itineraries, one-time map permission with consent withdrawal, glossary, print, reading preferences and optional reviewer workflow.
